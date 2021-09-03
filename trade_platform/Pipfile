@@ -5,6 +5,14 @@ name = "pypi"
 
 [packages]
 django = "*"
+djangorestframework-jwt = "*"
+djangorestframework = "==3.12.0"
+pytest-drf = "*"
+pytest-django = "*"
+docker = "*"
+psycopg2-binary = "*"
+mypy = "*"
+flake8 = "*"
 
 [dev-packages]
 
