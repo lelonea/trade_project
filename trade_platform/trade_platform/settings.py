@@ -10,7 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from dotenv import load_dotenv
 from pathlib import Path
+
+
+load_dotenv()
+
+AUTO_CONVERT_MONEY = True
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'trade.apps.TradeConfig',
+    'djmoney',
+    'djmoney.contrib.exchange',
 ]
 
 MIDDLEWARE = [

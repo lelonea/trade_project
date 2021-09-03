@@ -12,6 +12,8 @@ pytest-django = "*"
 psycopg2-binary = "*"
 mypy = "*"
 flake8 = "*"
+django-money = {extras = ["exchange"], version = "*"}
+python-dotenv = "*"
 
 [dev-packages]
 
