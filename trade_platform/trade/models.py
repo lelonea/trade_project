@@ -4,12 +4,15 @@ from djmoney.models.fields import MoneyField
 
 
 class User(AbstractUser):
+    """Current user"""
     balance = MoneyField(max_digits=14, decimal_places=2, default=0, default_currency='USD')
 
 
 class Item(models.Model):
+    """Particular stock"""
     code = models.CharField(max_length=8, unique=True)
     name = models.CharField(max_length=125, unique=True)
+    price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -18,12 +21,13 @@ class Item(models.Model):
 class Price(models.Model):
     """An actual price on item due to date"""
     actual_price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', blank=True, null=True)
-    actual_date = models.DateTimeField(unique=True, blank=True, null=True)
+    actual_date = models.DateTimeField(auto_now=True)
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL,
                              related_name='prices', related_query_name='prices')
 
 
 class WatchList(models.Model):
+    """Favorite list of stocks belongs to user"""
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL,
                              related_name='user_watchlist', related_query_name='user_watchlist')
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL,
@@ -31,6 +35,7 @@ class WatchList(models.Model):
 
 
 class Offer(models.Model):
+    """request to buy or sell specific stocks"""
     ORDER_TYPE = (
         (1, 'Sell'),
         (2, 'Buy'),
@@ -43,14 +48,15 @@ class Offer(models.Model):
     order_type = models.PositiveSmallIntegerField(choices=ORDER_TYPE)
     entry_quantity = models.IntegerField('Requested quantity')
     quantity = models.IntegerField('Current quantity')
-    price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', blank=True, null=True)
+    price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD')
     is_active = models.BooleanField(default=True)
     date_and_time = models.DateTimeField(auto_now_add=True)
 
 
 class Trade(models.Model):
+    """Information about a certain transaction"""
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=0)
     unit_price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', blank=True, null=True)
     seller = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL,
                                related_name='seller_trade', related_query_name='seller_trade')
@@ -65,6 +71,7 @@ class Trade(models.Model):
 
 
 class Inventory(models.Model):
+    """The number of stocks a particular user has"""
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
     quantity = models.IntegerField("Stock quantity", default=0)
