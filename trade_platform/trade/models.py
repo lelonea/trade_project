@@ -4,7 +4,7 @@ from djmoney.models.fields import MoneyField
 
 
 class User(AbstractUser):
-    balance = MoneyField(max_digits=14, decimal_places=2, default=0, default_currency='USD', blank=True, null=True)
+    balance = MoneyField(max_digits=14, decimal_places=2, default=0, default_currency='USD')
 
 
 class Item(models.Model):
@@ -24,8 +24,10 @@ class Price(models.Model):
 
 
 class WatchList(models.Model):
-    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
-    item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL,
+                             related_name='user_watchlist', related_query_name='user_watchlist')
+    item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL,
+                             related_name='item_watchlist', related_query_name='item_watchlist')
 
 
 class Offer(models.Model):
@@ -34,8 +36,10 @@ class Offer(models.Model):
         (2, 'Buy'),
     )
 
-    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
-    item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL,
+                             related_name='user_offer', related_query_name='user_offer')
+    item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL,
+                             related_name='item_offer', related_query_name='item_offer')
     order_type = models.PositiveSmallIntegerField(choices=ORDER_TYPE)
     entry_quantity = models.IntegerField('Requested quantity')
     quantity = models.IntegerField('Current quantity')
