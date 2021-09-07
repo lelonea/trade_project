@@ -23,8 +23,8 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         fields = ('username', 'password', 'email', 'first_name', 'last_name', 'balance')
 
 
-class DeleteUserSerializer(serializers.ModelSerializer):
+class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = User
+        model = Item
         fields = '__all__'
