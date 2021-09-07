@@ -1,14 +1,11 @@
 from django.contrib import admin
-from django.urls import path, include
-from trade.views import ItemListView, ItemView
+from trade.views import UserView
+from rest_framework import routers
 
 
 app_name = 'trade'
 
-urlpatterns = [
+router = routers.SimpleRouter()
+router.register('users', UserView)
 
-    path('item/', include([
-            path('all/', ItemListView.as_view(), name='Item_list'),
-            path('detail/<int:pk>', ItemView.as_view(), name='Item_detail'),
-    ])),
-]
+urlpatterns = router.urls
