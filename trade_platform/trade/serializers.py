@@ -1,12 +1,13 @@
 from rest_framework import serializers
-from trade.models import (User,
-                          Item,
-                          Price,
-                          WatchList,
-                          Inventory,
-                          Offer,
-                          Trade,
-                          )
+from trade.models import (
+    User,
+    Item,
+    Price,
+    WatchList,
+    Inventory,
+    Offer,
+    Trade,
+)
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -41,11 +42,30 @@ class UpdateUserSerializer(serializers.ModelSerializer):
                   )
 
 
-class ListRetrieveItemSerializer(serializers.ModelSerializer):
+class ListItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ('id',
                   'code',
+                  'name',
+                  'price',
+                  'price_currency',
+                  )
+
+
+class UpdateItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Item
+        fields = ('code',
+                  'name',
+                  'price',
+                  )
+
+
+class CreateItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Item
+        fields = ('code',
                   'name',
                   'price',
                   'price_currency',

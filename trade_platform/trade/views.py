@@ -1,38 +1,43 @@
 from django.shortcuts import render
 from rest_framework.viewsets import GenericViewSet
-from trade.serializers import (ListUserSerializer,
-                               CreateUserSerializer,
-                               UpdateUserSerializer,
-                               ListRetrieveItemSerializer,
-                               PriceSerializer,
-                               WatchlistSerializer,
-                               UpdateWatchlistSerializer,
-                               InventorySerializer,
-                               UpdateInventorySerializer,
-                               UpdateTradeSerializer,
-                               ListTradeSerializer,
-                               CreateTradeSerializer,
-                               ListOfferSerializer,
-                               CreateOfferSerializer,
-                               UpdateOfferSerializer,
-                               )
-from trade.models import (User,
-                          Item,
-                          Price,
-                          WatchList,
-                          Inventory,
-                          Trade,
-                          Offer,
-                          )
+from trade.serializers import (
+    ListUserSerializer,
+    CreateUserSerializer,
+    UpdateUserSerializer,
+    ListItemSerializer,
+    UpdateItemSerializer,
+    CreateItemSerializer,
+    PriceSerializer,
+    WatchlistSerializer,
+    UpdateWatchlistSerializer,
+    InventorySerializer,
+    UpdateInventorySerializer,
+    UpdateTradeSerializer,
+    ListTradeSerializer,
+    CreateTradeSerializer,
+    ListOfferSerializer,
+    CreateOfferSerializer,
+    UpdateOfferSerializer,
+)
+from trade.models import (
+    User,
+    Item,
+    Price,
+    WatchList,
+    Inventory,
+    Trade,
+    Offer,
+)
 from rest_framework import mixins
 from django_filters import rest_framework as filters
 
 
-class UserView(mixins.CreateModelMixin,
-               mixins.ListModelMixin,
-               mixins.UpdateModelMixin,
-               mixins.DestroyModelMixin,
-               GenericViewSet):
+class UserView(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet):
     """
     General User ViewSet description
 
@@ -67,33 +72,41 @@ class ItemView(
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
     GenericViewSet,
-              ):
+):
     """
     General Item ViewSet description
 
     list: List id, code, name, price, price_currency
 
-    update: Update code, name, price, price_currency
+    update: Update code, name, price
 
     create: Create record using code, name, price
 
     destroy: Delete record by id
     """
     queryset = Item.objects.all()
-    serializer_class = ListRetrieveItemSerializer
+    serializer_classes = {
+        'list': ListItemSerializer,
+        'create': CreateItemSerializer,
+        'update': UpdateItemSerializer,
+    }
     http_method_names = ('get',
                          'post',
                          'put',
                          'delete',
                          )
 
+    def get_serializer_class(self):
+        return self.serializer_classes.get(self.action)
 
-class PriceView(mixins.CreateModelMixin,
-                mixins.ListModelMixin,
-                mixins.UpdateModelMixin,
-                mixins.DestroyModelMixin,
-                GenericViewSet
-                ):
+
+class PriceView(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet
+):
     """
     General Price ViewSet description
 
@@ -114,11 +127,12 @@ class PriceView(mixins.CreateModelMixin,
                          )
 
 
-class WatchlistView(mixins.CreateModelMixin,
-                    mixins.ListModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    GenericViewSet):
+class WatchlistView(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet):
     """
     General WatchList ViewSet description
 
@@ -150,11 +164,12 @@ class WatchlistView(mixins.CreateModelMixin,
         return self.serializer_classes.get(self.action)
 
 
-class InventoryView(mixins.CreateModelMixin,
-                    mixins.ListModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    GenericViewSet):
+class InventoryView(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet):
     """
     General Inventory ViewSet description
 
@@ -191,10 +206,11 @@ class InventoryView(mixins.CreateModelMixin,
         return Inventory.objects.filter(user=user)
 
 
-class TradeView(mixins.CreateModelMixin,
-                mixins.ListModelMixin,
-                mixins.UpdateModelMixin,
-                GenericViewSet):
+class TradeView(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    GenericViewSet):
     """
     General Trade ViewSet description
 
@@ -227,11 +243,12 @@ class TradeView(mixins.CreateModelMixin,
         return self.serializer_classes.get(self.action)
 
 
-class OfferView(mixins.CreateModelMixin,
-                mixins.ListModelMixin,
-                mixins.UpdateModelMixin,
-                mixins.DestroyModelMixin,
-                GenericViewSet):
+class OfferView(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet):
     """
     General Offer ViewSet description
 

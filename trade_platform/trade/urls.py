@@ -1,14 +1,14 @@
 from django.contrib import admin
-from trade.views import (UserView,
-                         ItemView,
-                         PriceView,
-                         WatchlistView,
-                         InventoryView,
-                         TradeView,
-                         OfferView,
-                         )
+from trade.views import (
+    UserView,
+    ItemView,
+    PriceView,
+    WatchlistView,
+    InventoryView,
+    TradeView,
+    OfferView,
+)
 from rest_framework import routers
-
 
 app_name = 'trade'
 
