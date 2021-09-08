@@ -3,7 +3,7 @@ from rest_framework.viewsets import GenericViewSet
 from trade.serializers import (ListUserSerializer,
                                CreateUserSerializer,
                                UpdateUserSerializer,
-                               ItemSerializer,
+                               ListRetrieveItemSerializer,
                                PriceSerializer,
                                WatchlistSerializer,
                                UpdateWatchlistSerializer,
@@ -33,6 +33,17 @@ class UserView(mixins.CreateModelMixin,
                mixins.UpdateModelMixin,
                mixins.DestroyModelMixin,
                GenericViewSet):
+    """
+    General User ViewSet description
+
+    list: List id, username, first_name, last_name, balance
+
+    update: Update username, password, email, first_name, last_name, balance
+
+    create: Create record using username, password, balance
+
+    destroy: Delete record by id
+    """
     queryset = User.objects.all()
     serializer_classes = {
         'list': ListUserSerializer,
@@ -56,9 +67,20 @@ class ItemView(
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
     GenericViewSet,
-):
+              ):
+    """
+    General Item ViewSet description
+
+    list: List id, code, name, price, price_currency
+
+    update: Update code, name, price, price_currency
+
+    create: Create record using code, name, price
+
+    destroy: Delete record by id
+    """
     queryset = Item.objects.all()
-    serializer_class = ItemSerializer
+    serializer_class = ListRetrieveItemSerializer
     http_method_names = ('get',
                          'post',
                          'put',
@@ -70,7 +92,19 @@ class PriceView(mixins.CreateModelMixin,
                 mixins.ListModelMixin,
                 mixins.UpdateModelMixin,
                 mixins.DestroyModelMixin,
-                GenericViewSet):
+                GenericViewSet
+                ):
+    """
+    General Price ViewSet description
+
+    list: List id, item, actual_price, actual_date
+
+    update: Update item, actual_price
+
+    create: Create record using item, actual_price
+
+    destroy: Delete record by id
+    """
     queryset = Price.objects.all()
     serializer_class = PriceSerializer
     http_method_names = ('get',
@@ -85,6 +119,17 @@ class WatchlistView(mixins.CreateModelMixin,
                     mixins.UpdateModelMixin,
                     mixins.DestroyModelMixin,
                     GenericViewSet):
+    """
+    General WatchList ViewSet description
+
+    list: List id, user, item
+
+    update: Update item
+
+    create: Create record using user_id and item_id
+
+    destroy: Delete record by id
+    """
     queryset = WatchList.objects.all()
     serializer_classes = {
         'list': WatchlistSerializer,
@@ -110,6 +155,17 @@ class InventoryView(mixins.CreateModelMixin,
                     mixins.UpdateModelMixin,
                     mixins.DestroyModelMixin,
                     GenericViewSet):
+    """
+    General Inventory ViewSet description
+
+    list: List id, user, item, quantity
+
+    update: Update quantity
+
+    create: Create record using user, item, quantity
+
+    destroy: Delete record by id
+    """
     queryset = Inventory.objects.all()
     serializer_classes = {
         'list': InventorySerializer,
@@ -122,16 +178,13 @@ class InventoryView(mixins.CreateModelMixin,
                          'put',
                          'delete',
                          )
-    filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('user',
-                     )
 
     def get_serializer_class(self):
         return self.serializer_classes.get(self.action)
 
     def get_queryset(self):
         """
-        This view should return a list of all the purchases
+        This view should return a list of all the items and quantities
         for the currently authenticated user.
         """
         user = self.request.user
@@ -141,8 +194,16 @@ class InventoryView(mixins.CreateModelMixin,
 class TradeView(mixins.CreateModelMixin,
                 mixins.ListModelMixin,
                 mixins.UpdateModelMixin,
-                mixins.DestroyModelMixin,
                 GenericViewSet):
+    """
+    General Trade ViewSet description
+
+    list: List id, item, quantity, unit_price, seller, buyer, description, date_and_time
+
+    update: Update description
+
+    create: Create record using item, quantity, unit_price, seller, buyer, seller_offer, buyer_offer
+    """
     queryset = Trade.objects.all()
     serializer_classes = {
         'list': ListTradeSerializer,
@@ -171,6 +232,17 @@ class OfferView(mixins.CreateModelMixin,
                 mixins.UpdateModelMixin,
                 mixins.DestroyModelMixin,
                 GenericViewSet):
+    """
+    General Offer ViewSet description
+
+    list: List  id, item, order_type, entry_quantity, price, is_active, date_and_time
+
+    update: Update entry_quantity, price, quantity, is_active
+
+    create: Create record using user, item, order_type, entry_quantity, quantity, price
+
+    destroy: Delete record by id
+    """
     queryset = Offer.objects.all()
     serializer_classes = {
         'list': ListOfferSerializer,

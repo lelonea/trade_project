@@ -41,7 +41,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
                   )
 
 
-class ItemSerializer(serializers.ModelSerializer):
+class ListRetrieveItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ('id',

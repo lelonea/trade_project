@@ -17,7 +17,7 @@ router.register('users', UserView)
 router.register('items', ItemView)
 router.register('prices', PriceView)
 router.register('watchlists', WatchlistView)
-router.register('inventorys', InventoryView)
+router.register('inventories', InventoryView)
 router.register('trades', TradeView)
 router.register('offers', OfferView)
 
