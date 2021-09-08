@@ -30,6 +30,9 @@ class WatchList(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='watchlists')
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL, related_name='watchlists')
 
+    class Meta:
+        unique_together = ('user', 'item')
+
 
 class Offer(models.Model):
     """request to buy or sell specific stocks"""
@@ -41,7 +44,7 @@ class Offer(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='offers')
     item = models.ForeignKey(Item, null=True, on_delete=models.SET_NULL, related_name='offers')
     order_type = models.PositiveSmallIntegerField(choices=ORDER_TYPE)
-    entry_quantity = models.IntegerField('Requested quantity')
+    entry_quantity = models.IntegerField('Requested/given quantity')
     quantity = models.IntegerField('Current quantity')
     price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD', null=True)
     is_active = models.BooleanField(default=True)
@@ -63,6 +66,9 @@ class Trade(models.Model):
 
 class Inventory(models.Model):
     """The number of stocks a particular user has"""
-    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name='inventorys')
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='inventorys')
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL, related_name='inventorys')
     quantity = models.IntegerField("Stock quantity", default=0)
+
+    class Meta:
+        unique_together = ('user', 'item')

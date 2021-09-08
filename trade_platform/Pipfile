@@ -14,6 +14,8 @@ mypy = "*"
 flake8 = "*"
 django-money = {extras = ["exchange"], version = "*"}
 python-dotenv = "*"
+drf-spectacular = "*"
+django-filter = "*"
 
 [dev-packages]
 
