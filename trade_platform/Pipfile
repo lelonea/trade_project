@@ -16,6 +16,8 @@ django-money = {extras = ["exchange"], version = "*"}
 python-dotenv = "*"
 drf-spectacular = "*"
 django-filter = "*"
+faker = "*"
+mixer = "*"
 
 [dev-packages]
 

@@ -10,7 +10,8 @@ from trade.serializers import (
     PriceSerializer,
     WatchlistSerializer,
     UpdateWatchlistSerializer,
-    InventorySerializer,
+    ListInventorySerializer,
+    CreateInventorySerializer,
     UpdateInventorySerializer,
     UpdateTradeSerializer,
     ListTradeSerializer,
@@ -93,6 +94,7 @@ class ItemView(
     http_method_names = ('get',
                          'post',
                          'put',
+                         'patch',
                          'delete',
                          )
 
@@ -183,11 +185,11 @@ class InventoryView(
     """
     queryset = Inventory.objects.all()
     serializer_classes = {
-        'list': InventorySerializer,
-        'create': InventorySerializer,
+        'list': ListInventorySerializer,
+        'create': CreateInventorySerializer,
         'update': UpdateInventorySerializer,
     }
-    serializer_class_default = InventorySerializer
+    serializer_class_default = ListInventorySerializer
     http_method_names = ('get',
                          'post',
                          'put',

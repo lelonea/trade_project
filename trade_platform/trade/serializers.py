@@ -98,11 +98,20 @@ class UpdateWatchlistSerializer(serializers.ModelSerializer):
                   )
 
 
-class InventorySerializer(serializers.ModelSerializer):
+class ListInventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory
         fields = ('id',
                   'user',
+                  'item',
+                  'quantity',
+                  )
+
+
+class CreateInventorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inventory
+        fields = ('user',
                   'item',
                   'quantity',
                   )
