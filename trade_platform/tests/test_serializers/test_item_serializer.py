@@ -25,8 +25,9 @@ def test_update_item_serializer(item_data):
     )
 
     serializer = UpdateItemSerializer(data=item_data)
+    serializer.is_valid()
     assert all([field in serializer.validated_data for field in fields])
-    assert serializer.data['name'] == item_data.get('name')
+    assert serializer.validated_data['name'] == item_data.get('name')
 
 
 @pytest.mark.django_db
