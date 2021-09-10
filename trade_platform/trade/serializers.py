@@ -72,7 +72,7 @@ class CreateItemSerializer(serializers.ModelSerializer):
                   )
 
 
-class PriceSerializer(serializers.ModelSerializer):
+class ListPriceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Price
         fields = ('id',
@@ -82,11 +82,27 @@ class PriceSerializer(serializers.ModelSerializer):
                   )
 
 
-class WatchlistSerializer(serializers.ModelSerializer):
+class CreateUpdatePriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Price
+        fields = ('item',
+                  'actual_price',
+                  )
+
+
+class ListWatchlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = WatchList
         fields = ('id',
                   'user',
+                  'item',
+                  )
+
+
+class CreateWatchlistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WatchList
+        fields = ('user',
                   'item',
                   )
 
@@ -98,11 +114,20 @@ class UpdateWatchlistSerializer(serializers.ModelSerializer):
                   )
 
 
-class InventorySerializer(serializers.ModelSerializer):
+class ListInventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory
         fields = ('id',
                   'user',
+                  'item',
+                  'quantity',
+                  )
+
+
+class CreateInventorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inventory
+        fields = ('user',
                   'item',
                   'quantity',
                   )
