@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.viewsets import GenericViewSet
 from trade.serializers import (
     ListUserSerializer,
@@ -7,8 +6,10 @@ from trade.serializers import (
     ListItemSerializer,
     UpdateItemSerializer,
     CreateItemSerializer,
-    PriceSerializer,
-    WatchlistSerializer,
+    ListPriceSerializer,
+    CreateUpdatePriceSerializer,
+    ListWatchlistSerializer,
+    CreateWatchlistSerializer,
     UpdateWatchlistSerializer,
     ListInventorySerializer,
     CreateInventorySerializer,
@@ -121,12 +122,20 @@ class PriceView(
     destroy: Delete record by id
     """
     queryset = Price.objects.all()
-    serializer_class = PriceSerializer
+    serializer_classes = {
+        'list': ListPriceSerializer,
+        'create': CreateUpdatePriceSerializer,
+        'update': CreateUpdatePriceSerializer,
+    }
+    serializer_class_default = ListPriceSerializer
     http_method_names = ('get',
                          'post',
                          'put',
                          'delete',
                          )
+
+    def get_serializer_class(self):
+        return self.serializer_classes.get(self.action)
 
 
 class WatchlistView(
@@ -134,7 +143,8 @@ class WatchlistView(
     mixins.ListModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
-    GenericViewSet):
+    GenericViewSet
+):
     """
     General WatchList ViewSet description
 
@@ -148,11 +158,11 @@ class WatchlistView(
     """
     queryset = WatchList.objects.all()
     serializer_classes = {
-        'list': WatchlistSerializer,
-        'create': WatchlistSerializer,
+        'list': ListWatchlistSerializer,
+        'create': CreateWatchlistSerializer,
         'update': UpdateWatchlistSerializer,
     }
-    serializer_class_default = WatchlistSerializer
+    serializer_class_default = ListWatchlistSerializer
     http_method_names = ('get',
                          'post',
                          'put',

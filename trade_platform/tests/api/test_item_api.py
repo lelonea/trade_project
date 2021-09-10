@@ -23,17 +23,17 @@ def test_post_item_request(client, item_data):
 
 @pytest.mark.django_db
 def test_delete_item_request(client, item_obj):
-    assert Item.objects.count() == 1
+    obj_count_after_create = Item.objects.count()
     url = reverse('trade:item-detail', kwargs={'pk': item_obj.pk})
     response = client.delete(url, format='json')
+    obj_count_after_delete = Item.objects.count()
     assert response.status_code == 204
-    assert Item.objects.count() == 0
+    assert obj_count_after_create-1 == obj_count_after_delete
 
 
 @pytest.mark.django_db
 def test_put_item_request(client, item_obj, item_data):
     url = reverse('trade:item-detail', kwargs={'pk': item_obj.pk})
     response = client.put(url, UpdateItemSerializer(item_data).data, format='json')
-    print(UpdateItemSerializer(item_obj))
     assert response.status_code == 200
 

@@ -23,11 +23,12 @@ def test_post_inventory_request(client, inventory_data):
 
 @pytest.mark.django_db
 def test_delete_inventory_request(client, inventory_obj):
-    assert Inventory.objects.count() == 1
+    obj_count_after_create = Inventory.objects.count()
     url = reverse('trade:inventory-detail', kwargs={'pk': inventory_obj.pk})
     response = client.delete(url, format='json')
+    obj_count_after_delete = Inventory.objects.count()
     assert response.status_code == 204
-    assert Inventory.objects.count() == 0
+    assert obj_count_after_create-1 == obj_count_after_delete
 
 
 @pytest.mark.django_db
