@@ -17,10 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
+admin.site.site_header = "Trading platform Admin panel"
+admin.site.site_title = "Trading platform"
+admin.site.index_title = "Welcome to the control panel of the Trading platform"
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/trade/', include('trade.urls')),
+    path('api/v1/', include('user.urls')),
     path('api/v1/trade/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/v1/trade/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/v1/trade/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),

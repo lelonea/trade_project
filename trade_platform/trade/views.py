@@ -1,8 +1,5 @@
 from rest_framework.viewsets import GenericViewSet
 from trade.serializers import (
-    ListUserSerializer,
-    CreateUserSerializer,
-    UpdateUserSerializer,
     ListItemSerializer,
     UpdateItemSerializer,
     CreateItemSerializer,
@@ -22,7 +19,6 @@ from trade.serializers import (
     UpdateOfferSerializer,
 )
 from trade.models import (
-    User,
     Item,
     Price,
     WatchList,
@@ -32,40 +28,6 @@ from trade.models import (
 )
 from rest_framework import mixins
 from django_filters import rest_framework as filters
-
-
-class UserView(
-    mixins.CreateModelMixin,
-    mixins.ListModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    GenericViewSet):
-    """
-    General User ViewSet description
-
-    list: List id, username, first_name, last_name, balance
-
-    update: Update username, password, email, first_name, last_name, balance
-
-    create: Create record using username, password, balance
-
-    destroy: Delete record by id
-    """
-    queryset = User.objects.all()
-    serializer_classes = {
-        'list': ListUserSerializer,
-        'create': CreateUserSerializer,
-        'update': UpdateUserSerializer,
-    }
-
-    http_method_names = ('get',
-                         'post',
-                         'put',
-                         'delete',
-                         )
-
-    def get_serializer_class(self):
-        return self.serializer_classes.get(self.action)
 
 
 class ItemView(

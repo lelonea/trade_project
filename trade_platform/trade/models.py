@@ -1,11 +1,6 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 from djmoney.models.fields import MoneyField
-
-
-class User(AbstractUser):
-    """Current user"""
-    balance = MoneyField(max_digits=14, decimal_places=2, default=0, default_currency='USD')
+from user.models import User
 
 
 class Item(models.Model):

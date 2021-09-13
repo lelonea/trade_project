@@ -1,8 +1,7 @@
 from django.contrib import admin
-from trade.models import User, Inventory, WatchList, Item, Price, Offer, Trade
+from trade.models import Inventory, WatchList, Item, Price, Offer, Trade
 
 
-admin.site.register(User)
 admin.site.register(Inventory)
 admin.site.register(WatchList)
 admin.site.register(Item)
